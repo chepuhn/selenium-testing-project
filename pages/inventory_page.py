@@ -24,10 +24,11 @@ class InventoryPage(BasePage):
     def add_backpack_to_cart(self):
         self.wait_for_page()
 
-        WebDriverWait(self.driver, 10).until(
+        button = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.ADD_BACKPACK_BUTTON)
         )
-        self.click(self.ADD_BACKPACK_BUTTON)
+
+        self.driver.execute_script("arguments[0].click();", button)
 
         WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located(self.REMOVE_BACKPACK_BUTTON)
@@ -45,6 +46,7 @@ class InventoryPage(BasePage):
         WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located(self.SORT_SELECT)
         )
+
         select = Select(self.find(self.SORT_SELECT))
         select.select_by_value("za")
 
@@ -54,16 +56,19 @@ class InventoryPage(BasePage):
         WebDriverWait(self.driver, 10).until(
             EC.presence_of_all_elements_located(self.INVENTORY_ITEMS)
         )
+
         items = self.driver.find_elements(*self.INVENTORY_ITEMS)
         return [item.text for item in items]
 
     def logout(self):
-        WebDriverWait(self.driver, 10).until(
+        self.wait_for_page()
+
+        menu_button = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.MENU_BUTTON)
         )
-        self.click(self.MENU_BUTTON)
+        self.driver.execute_script("arguments[0].click();", menu_button)
 
-        WebDriverWait(self.driver, 10).until(
+        logout_link = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.LOGOUT_LINK)
         )
-        self.click(self.LOGOUT_LINK)
+        self.driver.execute_script("arguments[0].click();", logout_link)
