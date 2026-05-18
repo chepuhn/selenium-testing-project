@@ -8,7 +8,6 @@ from pages.base_page import BasePage
 class InventoryPage(BasePage):
     ADD_BACKPACK_BUTTON = (By.ID, "add-to-cart-sauce-labs-backpack")
     CART_LINK = (By.CLASS_NAME, "shopping_cart_link")
-    CART_BADGE = (By.CLASS_NAME, "shopping_cart_badge")
     SORT_SELECT = (By.CLASS_NAME, "product_sort_container")
     INVENTORY_ITEMS = (By.CLASS_NAME, "inventory_item_name")
     MENU_BUTTON = (By.ID, "react-burger-menu-btn")
@@ -20,15 +19,15 @@ class InventoryPage(BasePage):
         )
         self.click(self.ADD_BACKPACK_BUTTON)
 
-        WebDriverWait(self.driver, 10).until(
-            EC.text_to_be_present_in_element(self.CART_BADGE, "1")
-        )
-
     def open_cart(self):
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.CART_LINK)
         )
         self.click(self.CART_LINK)
+
+        WebDriverWait(self.driver, 10).until(
+            EC.url_contains("cart")
+        )
 
     def sort_by_name_z_to_a(self):
         WebDriverWait(self.driver, 10).until(
