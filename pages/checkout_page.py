@@ -14,6 +14,11 @@ class CheckoutPage(BasePage):
     COMPLETE_HEADER = (By.CLASS_NAME, "complete-header")
 
     def fill_user_data(self, first_name, last_name, postal_code):
+        # ВАЖНО — ждём, что точно попали на страницу checkout
+        WebDriverWait(self.driver, 10).until(
+            EC.url_contains("checkout-step-one")
+        )
+
         WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located(self.FIRST_NAME_INPUT)
         )
