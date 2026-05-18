@@ -6,15 +6,13 @@ from pages.base_page import BasePage
 
 
 class CartPage(BasePage):
-    CART_ITEMS = (By.CLASS_NAME, "cart_item")
     CHECKOUT_BUTTON = (By.ID, "checkout")
+    BACKPACK_ITEM = (By.XPATH, "//div[text()='Sauce Labs Backpack']")
 
-    def get_cart_items_count(self):
-        WebDriverWait(self.driver, 10).until(
-            EC.presence_of_all_elements_located(self.CART_ITEMS)
-        )
-        items = self.driver.find_elements(*self.CART_ITEMS)
-        return len(items)
+    def is_backpack_in_cart(self):
+        return WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located(self.BACKPACK_ITEM)
+        ).is_displayed()
 
     def checkout(self):
         WebDriverWait(self.driver, 10).until(
