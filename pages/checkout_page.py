@@ -1,7 +1,4 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-
 from pages.base_page import BasePage
 
 
@@ -14,38 +11,13 @@ class CheckoutPage(BasePage):
     COMPLETE_HEADER = (By.CLASS_NAME, "complete-header")
 
     def fill_user_data(self, first_name, last_name, postal_code):
-        # Принудительный переход на страницу оформления заказа
-        # используется для стабильной работы теста в CI/CD
-        self.driver.get("https://www.saucedemo.com/checkout-step-one.html")
-
-        WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located(self.FIRST_NAME_INPUT)
-        )
-
         self.type_text(self.FIRST_NAME_INPUT, first_name)
         self.type_text(self.LAST_NAME_INPUT, last_name)
         self.type_text(self.POSTAL_CODE_INPUT, postal_code)
-
-        continue_button = WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable(self.CONTINUE_BUTTON)
-        )
-        self.driver.execute_script("arguments[0].click();", continue_button)
-
-        WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located(self.FINISH_BUTTON)
-        )
+        self.click(self.CONTINUE_BUTTON)
 
     def finish_order(self):
-        finish_button = WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable(self.FINISH_BUTTON)
-        )
-        self.driver.execute_script("arguments[0].click();", finish_button)
-
-        WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located(self.COMPLETE_HEADER)
-        )
+        self.click(self.FINISH_BUTTON)
 
     def get_complete_message(self):
-        return WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located(self.COMPLETE_HEADER)
-        ).text
+        return self.get_text(self.COMPLETE_HEADER)
