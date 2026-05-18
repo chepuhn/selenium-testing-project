@@ -17,4 +17,4 @@ def test_add_product_to_cart(driver):
     inventory_page.open_cart()
     driver.save_screenshot("screenshots/05_cart_page.png")
 
-    assert cart_page.get_cart_items_count() == 1
+    assert cart_page.is_backpack_in_cart()
