@@ -7,6 +7,7 @@ from pages.base_page import BasePage
 
 class InventoryPage(BasePage):
     ADD_BACKPACK_BUTTON = (By.ID, "add-to-cart-sauce-labs-backpack")
+    REMOVE_BACKPACK_BUTTON = (By.ID, "remove-sauce-labs-backpack")
     CART_LINK = (By.CLASS_NAME, "shopping_cart_link")
     SORT_SELECT = (By.CLASS_NAME, "product_sort_container")
     INVENTORY_ITEMS = (By.CLASS_NAME, "inventory_item_name")
@@ -18,6 +19,10 @@ class InventoryPage(BasePage):
             EC.element_to_be_clickable(self.ADD_BACKPACK_BUTTON)
         )
         self.click(self.ADD_BACKPACK_BUTTON)
+
+        WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located(self.REMOVE_BACKPACK_BUTTON)
+        )
 
     def open_cart(self):
         WebDriverWait(self.driver, 10).until(
