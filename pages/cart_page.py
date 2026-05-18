@@ -7,15 +7,16 @@ from pages.base_page import BasePage
 
 class CartPage(BasePage):
     CHECKOUT_BUTTON = (By.ID, "checkout")
-    BACKPACK_ITEM = (By.XPATH, "//div[text()='Sauce Labs Backpack']")
-
-    def is_backpack_in_cart(self):
-        return WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located(self.BACKPACK_ITEM)
-        ).is_displayed()
 
     def checkout(self):
-        WebDriverWait(self.driver, 10).until(
+        button = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.CHECKOUT_BUTTON)
         )
-        self.click(self.CHECKOUT_BUTTON)
+
+        # кликаем через JS (как уже делали)
+        self.driver.execute_script("arguments[0].click();", button)
+
+        # ВАЖНО — ждём переход
+        WebDriverWait(self.driver, 10).until(
+            EC.url_contains("checkout-step-one")
+        )
