@@ -6,6 +6,8 @@ from pages.base_page import BasePage
 
 
 class InventoryPage(BasePage):
+    INVENTORY_CONTAINER = (By.ID, "inventory_container")
+
     ADD_BACKPACK_BUTTON = (By.ID, "add-to-cart-sauce-labs-backpack")
     REMOVE_BACKPACK_BUTTON = (By.ID, "remove-sauce-labs-backpack")
     CART_LINK = (By.CLASS_NAME, "shopping_cart_link")
@@ -14,7 +16,14 @@ class InventoryPage(BasePage):
     MENU_BUTTON = (By.ID, "react-burger-menu-btn")
     LOGOUT_LINK = (By.ID, "logout_sidebar_link")
 
+    def wait_for_page(self):
+        WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located(self.INVENTORY_CONTAINER)
+        )
+
     def add_backpack_to_cart(self):
+        self.wait_for_page()
+
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.ADD_BACKPACK_BUTTON)
         )
@@ -31,6 +40,8 @@ class InventoryPage(BasePage):
         self.click(self.CART_LINK)
 
     def sort_by_name_z_to_a(self):
+        self.wait_for_page()
+
         WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located(self.SORT_SELECT)
         )
@@ -38,6 +49,8 @@ class InventoryPage(BasePage):
         select.select_by_value("za")
 
     def get_product_names(self):
+        self.wait_for_page()
+
         WebDriverWait(self.driver, 10).until(
             EC.presence_of_all_elements_located(self.INVENTORY_ITEMS)
         )
