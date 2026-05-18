@@ -21,10 +21,8 @@ class CheckoutPage(BasePage):
         self.type_text(self.FIRST_NAME_INPUT, first_name)
         self.type_text(self.LAST_NAME_INPUT, last_name)
         self.type_text(self.POSTAL_CODE_INPUT, postal_code)
-
         self.click(self.CONTINUE_BUTTON)
 
-        # ВАЖНО — ждём следующую страницу
         WebDriverWait(self.driver, 10).until(
             EC.url_contains("checkout-step-two")
         )
@@ -39,3 +37,8 @@ class CheckoutPage(BasePage):
         WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located(self.COMPLETE_HEADER)
         )
+
+    def get_complete_message(self):
+        return WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located(self.COMPLETE_HEADER)
+        ).text
