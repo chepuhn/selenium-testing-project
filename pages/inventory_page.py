@@ -25,10 +25,6 @@ class InventoryPage(BasePage):
         )
         self.click(self.CART_LINK)
 
-        WebDriverWait(self.driver, 10).until(
-            EC.url_contains("cart")
-        )
-
     def sort_by_name_z_to_a(self):
         WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located(self.SORT_SELECT)
