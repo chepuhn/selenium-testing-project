@@ -21,18 +21,21 @@ class CheckoutPage(BasePage):
         self.type_text(self.FIRST_NAME_INPUT, first_name)
         self.type_text(self.LAST_NAME_INPUT, last_name)
         self.type_text(self.POSTAL_CODE_INPUT, postal_code)
-        self.click(self.CONTINUE_BUTTON)
+
+        continue_button = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable(self.CONTINUE_BUTTON)
+        )
+        self.driver.execute_script("arguments[0].click();", continue_button)
 
         WebDriverWait(self.driver, 10).until(
-            EC.url_contains("checkout-step-two")
+            EC.presence_of_element_located(self.FINISH_BUTTON)
         )
 
     def finish_order(self):
-        button = WebDriverWait(self.driver, 10).until(
+        finish_button = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.FINISH_BUTTON)
         )
-
-        self.driver.execute_script("arguments[0].click();", button)
+        self.driver.execute_script("arguments[0].click();", finish_button)
 
         WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located(self.COMPLETE_HEADER)
