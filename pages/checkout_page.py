@@ -27,12 +27,10 @@ class CheckoutPage(BasePage):
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(self.FINISH_BUTTON)
         )
-
         self.click(self.FINISH_BUTTON)
 
     def get_complete_message(self):
         WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located(self.COMPLETE_HEADER)
         )
-
         return self.get_text(self.COMPLETE_HEADER)
