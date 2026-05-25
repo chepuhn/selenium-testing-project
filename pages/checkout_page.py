@@ -2,6 +2,10 @@ from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 
 
+def process_payment():
+    return True
+
+
 class CheckoutPage(BasePage):
     FIRST_NAME_INPUT = (By.ID, "first-name")
     LAST_NAME_INPUT = (By.ID, "last-name")
